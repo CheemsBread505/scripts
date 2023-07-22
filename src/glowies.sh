@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define the URL and filename
-url="https://www.cheemsbread.xyz/filelist//glowies.mp4"
+url="https://www.cheemsbread.xyz/filelist//Videos/glowies.mp4"
 filename="glowies.mp4"
 
 # Download the video using wget
