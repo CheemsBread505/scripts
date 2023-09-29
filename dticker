@@ -1,0 +1,25 @@
+#!/bin/sh
+# Simple script that uses dmenu to select a cryptocurrency ticker
+# and displays the current price using rate.sx API.
+
+# Get the list of available tickers from rate.sx
+tickers=$(curl -s rate.sx/list | sed 's/,/\n/g')
+
+# Use dmenu to select a ticker
+selected_ticker=$(echo "$tickers" | dmenu -p "Select a ticker:")
+
+# Check if a ticker was selected
+[ -z "$selected_ticker" ] && exit 1
+
+# Get the price for the selected ticker
+price=$(curl -s rate.sx/1"$selected_ticker" | grep -o '^[0-9.]*')
+
+# Check if there was an error fetching the price
+if [ -z "$price" ]; then
+    echo "Error fetching price for $selected_ticker"
+    exit 1
+fi
+
+# Display the price using dmenu
+printf "$%0.2f\n" "$price" | dmenu -p "$selected_ticker price:"
+
